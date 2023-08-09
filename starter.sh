@@ -55,7 +55,7 @@ if [ ! "$VERIFIED" == "TRUE" ]; then
 fi
 
 # burn SD Card
-sudo mkfs.vfat ${SD_DEV}
+sudo mkfs.vfat -I ${SD_DEV}
 sudo dd if=${IMG_PATH} of=${SD_DEV}
 
 mkdir ${MNT_PATH}
