@@ -26,12 +26,19 @@ for bar in $FILES_VERIFY_LIST; do
         echo "Check $PARAMS_FILE if it's properly defined?"
         VERIFIED="FALSE"
     fi
-    if [ ! -f "$foo" ]; then
+    if ! [[ -f $foo || -d $foo || -b $foo ]]; then
         echo "$bar='$foo' not found."
         echo "Check $PARAMS_FILE if it's properly defined?"
         VERIFIED="FALSE"
     fi
 done
+
+bar="MNT_PATH"
+declare -n foo=${bar}
+if [ -d $foo ]; then
+    echo "$bar='$foo' already exists, pick dir that doesn't exist"
+    VERIFIED="FALSE"
+fi
 
 VERIFY_STRINGS_LIST="$WIFI_SSID $WIFI_PASS $PI_CREDENTIALS"
 for str in $VERIFY_STRINGS_LIST; do
@@ -41,15 +48,11 @@ for str in $VERIFY_STRINGS_LIST; do
     fi
 done
 
-echo $VERIFIED
-
 if [ ! "$VERIFIED" == "TRUE" ]; then
     echo "Errors were found during $PARAMS initiation"
     echo "See README.md"
     exit
 fi
-
-exit
 
 # burn SD Card
 sudo mkfs.vfat ${SD_DEV}
