@@ -39,8 +39,10 @@ if [ -d $foo ]; then
     echo "$bar='$foo' already exists, pick dir that doesn't exist"
     VERIFIED="FALSE"
 fi
+export MNT_PATH_P1="${MNT_PATH}/p1"
+export MNT_PATH_P2="${MNT_PATH}/p2"
 
-VERIFY_STRINGS_LIST="$WIFI_SSID $WIFI_PASS $PI_CREDENTIALS"
+VERIFY_STRINGS_LIST="$WIFI_SSID $WIFI_PASS $PI_CREDENTIALS $RASPBERRYPI_HOSTNAME"
 for str in $VERIFY_STRINGS_LIST; do
     if [ "$str" == "" ]; then
         echo "$str is empty, is it properly defined? Check params.sh"
@@ -58,22 +60,22 @@ fi
 sudo mkfs.vfat -I ${SD_DEV}
 sudo dd if=${IMG_PATH} of=${SD_DEV}
 
-mkdir ${MNT_PATH}
-mount ${SD_P1} ${MNT_PATH}
-cat << EOF > ${MNT_PATH}/userconf.txt
+mkdir -p ${MNT_PATH_P1}
+mount ${SD_P1} ${MNT_PATH_P1}
+cat << EOF > ${MNT_PATH_P1}/userconf.txt
 $PI_CREDENTIALS
 EOF
 
 # enable ssh
-touch ${MNT_PATH}/ssh
+touch ${MNT_PATH_P1}/ssh
 
 # boot setup
-sed -i'' 's/$/ modules-load=dwc2,g_ether cgroup_enable=memory cgroup_memory=1 dwc_otg.lpm_enable=0 elevator=deadline/g' ${MNT_PATH}/cmdline.txt
-sed -i'' 's/^dtoverlay=vc4-kms-v3d$/#dtoverlay=vc4-kms-v3/g' ${MNT_PATH}/config.txt
-(echo "[all]"; echo "dtoverlay=dwc2") >> ${MNT_PATH}/config.txt
+sed -i'' 's/$/ modules-load=dwc2,g_ether cgroup_enable=memory cgroup_memory=1 dwc_otg.lpm_enable=0 elevator=deadline/g' ${MNT_PATH_P1}/cmdline.txt
+sed -i'' 's/^dtoverlay=vc4-kms-v3d$/#dtoverlay=vc4-kms-v3/g' ${MNT_PATH_P1}/config.txt
+(echo "[all]"; echo "dtoverlay=dwc2") >> ${MNT_PATH_P1}/config.txt
 
 # wifi setup
-cat << EOF > ${MNT_PATH}/wpa_supplicant.conf
+cat << EOF > ${MNT_PATH_P1}/wpa_supplicant.conf
 country=US
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
@@ -86,4 +88,18 @@ network={
 }
 EOF
 
-umount ${MNT_PATH}
+umount ${MNT_PATH_P1}
+rmdir ${MNT_PATH_P1}
+
+# OS partition
+mkdir -p ${MNT_PATH_P2}
+mount ${SD_P2} ${MNT_PATH_P2}
+
+## change hostname
+echo $RASPBERRYPI_HOSTNAME > ${MNT_PATH_P2}/etc/hostname
+sed -i'' "s/raspberrypi/$RASPBERRYPI_HOSTNAME/g" ${MNT_PATH_P2}/etc/hosts
+
+umount ${MNT_PATH_P2}
+rmdir ${MNT_PATH_P2}
+
+rmdir $MNT_PATH
