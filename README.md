@@ -1,13 +1,14 @@
 # About
 
-Script that prepares builds Raspberry Pi SD Card before first boot.
-Currently, it supports Ubuntu execution host (and Raspberry Pi OS for Raspberry Pi) and should be executed with root.
+Script that builds Raspberry Pi SD Card before first boot.
+Currently, it supports Ubuntu as execution host (and Raspberry Pi OS for Raspberry Pi) and should be executed with root.
 
 # Prerequisites
 
-- empty SD Card
-- Raspberry Pi OS image (.img)
-- Ubuntu host with SD Card slot
+- empty microSD Card (at least 4 GB)
+- Ubuntu host with SD Card slot 
+- SD Card adapter
+- Raspberry Pi OS image (.img) - see https://www.raspberrypi.com/software/operating-systems/
 
 # Usage
 
@@ -23,7 +24,7 @@ echo 'mypassword' | openssl passwd -6 -stdin | sed 's/^/mynewlogin:/g'
 fdisk -l
 ```
 
-SD Card can be found by size.
+SD Card can be identified by size.
 
 3. Prepare params.sh accordingly (see params.sh.example)
 

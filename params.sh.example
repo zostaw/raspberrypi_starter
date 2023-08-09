@@ -1,13 +1,15 @@
 #!/bin/bash
 
-# see README.md
+# essential, see README.md, it can break your system if dne wrong
 SD_DEV=/dev/mmcblk0
+# you can keep default, just make sure it doesn't exist
 MNT_PATH=/SDCARD
+# your image path, dowload from https://www.raspberrypi.com/software/operating-systems/
 IMG_PATH=/home/zostaw/downloads/2023-05-03-raspios-bullseye-armhf-lite.img
+# essential, see how to generate in README.md - single quotes!!!
+PI_CREDENTIALS='mynewlogin:myhashedpassword'
+# raspberry hostname - ignore if you don't care
 RASPBERRYPI_HOSTNAME="raspberrypi"
+# WIFI connection, if not wifi model - ignore
 WIFI_SSID="my_SSID"
 WIFI_PASS="mypasword_1234"
-# see how to generate in README.md - single quotes!!!
-PI_CREDENTIALS='mynewlogin:myhashedpassword'
-SD_P1="${SD_DEV}p1"
-SD_P2="${SD_DEV}p2"

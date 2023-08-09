@@ -17,7 +17,7 @@ fi
 
 . ${PARAMS}
 
-FILES_VERIFY_LIST="SD_DEV IMG_PATH SD_P1 SD_P2"
+FILES_VERIFY_LIST="SD_DEV IMG_PATH"
 VERIFIED="TRUE"
 for bar in $FILES_VERIFY_LIST; do
     declare -n foo=${bar}
@@ -39,6 +39,9 @@ if [ -d $foo ]; then
     echo "$bar='$foo' already exists, pick dir that doesn't exist"
     VERIFIED="FALSE"
 fi
+
+export SD_P1="${SD_DEV}p1"
+export SD_P2="${SD_DEV}p2"
 export MNT_PATH_P1="${MNT_PATH}/p1"
 export MNT_PATH_P2="${MNT_PATH}/p2"
 
