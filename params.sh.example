@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# see README.md
+SD_DEV=/dev/mmcblk0
+MNT_PATH=/SDCARD
+IMG_PATH=/home/zostaw/downloads/2023-05-03-raspios-bullseye-armhf-lite.img
+WIFI_SSID="my_SSID"
+WIFI_PASS="mypasword_1234"
+# see how to generate in README.md
+PI_CREDENTIALS="mynewlogin:myhashedpassword"
+SD_P1="${SD_DEV}p1"
+SD_P2="${SD_DEV}p2"
