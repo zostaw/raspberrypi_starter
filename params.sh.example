@@ -8,8 +8,10 @@ MNT_PATH=/SDCARD
 IMG_PATH=/home/zostaw/downloads/2023-05-03-raspios-bullseye-armhf-lite.img
 # essential, see how to generate in README.md - single quotes!!!
 PI_CREDENTIALS='mynewlogin:myhashedpassword'
+# is image burned for Raspberry Pi Zero (takes 0/1)
+IS_RASPBERRY_ZERO="0"
 # raspberry hostname - ignore if you don't care
 RASPBERRYPI_HOSTNAME="raspberrypi"
-# WIFI connection, if not wifi model - ignore
+# WIFI connection, if not wifi model - ignore, DOES NOT WORK for Bookwarm and higher OS versions
 WIFI_SSID="my_SSID"
 WIFI_PASS="mypasword_1234"

@@ -45,7 +45,7 @@ export SD_P2="${SD_DEV}p2"
 export MNT_PATH_P1="${MNT_PATH}/p1"
 export MNT_PATH_P2="${MNT_PATH}/p2"
 
-VERIFY_STRINGS_LIST="$WIFI_SSID $WIFI_PASS $PI_CREDENTIALS $RASPBERRYPI_HOSTNAME"
+VERIFY_STRINGS_LIST="$WIFI_SSID $WIFI_PASS $PI_CREDENTIALS $RASPBERRYPI_HOSTNAME $IS_RASPBERRYPI_ZERO"
 for str in $VERIFY_STRINGS_LIST; do
     if [ "$str" == "" ]; then
         echo "$str is empty, is it properly defined? Check params.sh"
@@ -72,12 +72,14 @@ EOF
 # enable ssh
 touch ${MNT_PATH_P1}/ssh
 
-# boot setup
+# boot setup for raspberry pi zero
+if [ "$IS_RASPBERRYPI_ZERO" == "1" ]; then
 sed -i'' 's/$/ modules-load=dwc2,g_ether cgroup_enable=memory cgroup_memory=1 dwc_otg.lpm_enable=0 elevator=deadline/g' ${MNT_PATH_P1}/cmdline.txt
-sed -i'' 's/^dtoverlay=vc4-kms-v3d$/#dtoverlay=vc4-kms-v3/g' ${MNT_PATH_P1}/config.txt
+sed -i'' 's/^dtoverlay=vc4-kms-v3d$/#dtoverlay=vc4-kms-v3d/g' ${MNT_PATH_P1}/config.txt
 (echo "[all]"; echo "dtoverlay=dwc2") >> ${MNT_PATH_P1}/config.txt
+fi
 
-# wifi setup
+# wifi setup - only works before Bookwarm OS
 cat << EOF > ${MNT_PATH_P1}/wpa_supplicant.conf
 country=US
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev

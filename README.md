@@ -29,3 +29,10 @@ SD Card can be identified by size.
 3. Prepare params.sh accordingly (see params.sh.example)
 
 4. Execute *./starter.sh params.sh* (as root)
+
+# Update 30.11.2023
+
+Wifi is *NOT* supported since Raspberry Pi OS (12 - Bookwarm). 
+The headless option was removed.
+Instead you can configure wifi after connecting ssh (over ethernet) and running raspi-config.
+
