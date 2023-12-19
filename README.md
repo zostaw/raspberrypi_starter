@@ -6,7 +6,7 @@ Currently, it supports Ubuntu as execution host (and Raspberry Pi OS for Raspber
 # Prerequisites
 
 - empty microSD Card (at least 4 GB)
-- Ubuntu host with SD Card slot 
+- Linux host with SD Card slot 
 - SD Card adapter
 - Raspberry Pi OS image (.img) - see https://www.raspberrypi.com/software/operating-systems/
 
@@ -25,6 +25,9 @@ fdisk -l
 ```
 
 SD Card can be identified by size.
+Ussually you should expect something like "/dev/mmcblk0" if you're running mmc card,
+but when I used USB adapter on my raspberry pi it appeared under "/dev/sda".
+Beware, /dev/sda is commonly used as computer disk partition, you don't want to make mistake here.
 
 3. Prepare params.sh accordingly (see params.sh.example)
 
@@ -35,4 +38,5 @@ SD Card can be identified by size.
 Wifi is *NOT* supported since Raspberry Pi OS (12 - Bookwarm). 
 The headless option was removed.
 Instead you can configure wifi after connecting ssh (over ethernet) and running raspi-config.
+Or if you have hdmi adapter, you can finish configuration over hdmi.
 

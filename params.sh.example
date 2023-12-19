@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# essential, see README.md, it can break your system if dne wrong
+# essential, see README.md, it can break your system if done wrong
 SD_DEV=/dev/mmcblk0
 # you can keep default, just make sure it doesn't exist
 MNT_PATH=/SDCARD
 # your image path, dowload from https://www.raspberrypi.com/software/operating-systems/
-IMG_PATH=/home/zostaw/downloads/2023-05-03-raspios-bullseye-armhf-lite.img
+IMG_PATH=/home/zostaw/downloads/2023-12-05-raspios-bookworm-arm64.img
 # essential, see how to generate in README.md - single quotes!!!
 PI_CREDENTIALS='mynewlogin:myhashedpassword'
 # is image burned for Raspberry Pi Zero (takes 0/1)

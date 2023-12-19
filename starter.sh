@@ -40,8 +40,12 @@ if [ -d $foo ]; then
     VERIFIED="FALSE"
 fi
 
-export SD_P1="${SD_DEV}p1"
-export SD_P2="${SD_DEV}p2"
+SD_PARTITIONS=$(fdisk -l ${SD_DEV} | tail -2 | awk '{print $1}')
+export SD_P1=$(echo $SD_PARTITIONS | awk '{print $1}')
+export SD_P2=$(echo $SD_PARTITIONS | awk '{print $2}')
+# this one is expected to be empty:
+export SD_P3=$(echo $SD_PARTITIONS | awk '{print $3}')
+if [ "" != "${SD_P3}" ]; then echo "Unsupported scenario: disk contains more than 2 partitions. Found \"${SD_P3}\"."; fi
 export MNT_PATH_P1="${MNT_PATH}/p1"
 export MNT_PATH_P2="${MNT_PATH}/p2"
 
